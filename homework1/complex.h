@@ -22,6 +22,7 @@ private:
 bool operator==(const Complex, const Complex);
 bool operator!=(const Complex, const Complex);
 bool operator<(const Complex, const Complex);
+bool operator>(const Complex a, const Complex b);
 
 Complex operator+(const Complex, const Complex);
 Complex operator-(const Complex, const Complex);
