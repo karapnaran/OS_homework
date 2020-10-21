@@ -17,12 +17,23 @@ int main(int argn, char* argv[])
     const char* dst_path = argv[2];
 
     int src_fd = open(src_path, O_RDONLY);
+    if (src_fd == -1)
+    {
+	printf("failed to open the source file.\n");
+	return errno;
+    }
     int dst_fd = open(dst_path, O_CREAT | O_WRONLY);
+    if (dst_fd == -1)
+    {
+	printf("failed to open the destination file.\n");
+	return errno;
+    }
 
     //calculating the size of the source file
     off_t src_off = lseek(src_fd, 0, SEEK_END);
-    if (src_off ==-1)
+    if (src_off == -1)
     {
+	printf("lseek failed on the source file.\n");
         return errno;
     }
     
@@ -33,6 +44,7 @@ int main(int argn, char* argv[])
         int err = read(src_fd, buffer, 4096);
         if (err == -1) 
         {
+	    printf("failed to read the source file.\n");
             return errno;
         }
         int n = err;
@@ -40,14 +52,16 @@ int main(int argn, char* argv[])
         err = write(dst_fd, buffer, n);
         if (err == -1) 
 	{
+	    printf("failed to write in the destination file.\n");
             return errno;
         }
     }
 
     //calculating the size of the copied file
     off_t dst_off = lseek(dst_fd, 0, SEEK_END);
-    if (src_off ==-1)
+    if (dst_off == -1)
     {
+	printf("lseek failed on the destination file.\n");
         return errno;
     }
 
@@ -57,4 +71,5 @@ int main(int argn, char* argv[])
     //closing both files
     close(src_fd);
     close(dst_fd);
+    return 0;
 }
