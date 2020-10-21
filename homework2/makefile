@@ -1,10 +1,12 @@
+COMPILER=gcc
+
 all: copyfile
 
 copyfile: copyfile.o 
-	gcc copyfile.o -o copyfile
+	$(COMPILER) copyfile.o -o copyfile
 
 copyfile.o: copyfile.c
-	gcc -c copyfile.c -o copyfile.o
+	$(COMPILER) -c copyfile.c -o copyfile.o
 
 clean:
 	rm *.o copyfile
