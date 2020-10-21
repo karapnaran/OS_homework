@@ -22,7 +22,7 @@ int main(int argn, char* argv[])
 	printf("failed to open the source file.\n");
 	return errno;
     }
-    int dst_fd = open(dst_path, O_CREAT | O_WRONLY);
+    int dst_fd = open(dst_path, O_WRONLY | O_CREAT | O_TRUNC);
     if (dst_fd == -1)
     {
 	printf("failed to open the destination file.\n");
@@ -38,19 +38,20 @@ int main(int argn, char* argv[])
     }
     
     //copying the file
-    unsigned char buffer[4096];
-    while (1) 
+    int buffer_size = 1024;
+    char buffer[buffer_size + 1];
+    while(1)
     {
-        int err = read(src_fd, buffer, 4096);
+	int err = read(src_fd, buffer, buffer_size);
         if (err == -1) 
         {
 	    printf("failed to read the source file.\n");
             return errno;
         }
-        int n = err;
-        if (n == 0) break;
-        err = write(dst_fd, buffer, n);
-        if (err == -1) 
+	//no more bytes to read    
+	if(err == 0) break;
+        err = write(dst_fd, buffer, err);
+	if (err == -1) 
 	{
 	    printf("failed to write in the destination file.\n");
             return errno;
