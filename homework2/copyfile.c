@@ -50,7 +50,7 @@ int main(int argn, char* argv[])
         }
     }
 	
-    //calculating the size of the source file
+    //calculating the logical size of the source file
     off_t src_off = lseek(src_fd, 0, SEEK_END);
     if (src_off == -1)
     {
@@ -58,7 +58,7 @@ int main(int argn, char* argv[])
         return errno;
     }
 	
-    //calculating the size of the copied file
+    //calculating the logical size of the copied file
     off_t dst_off = lseek(dst_fd, 0, SEEK_END);
     if (dst_off == -1)
     {
