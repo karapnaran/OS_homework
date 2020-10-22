@@ -28,14 +28,6 @@ int main(int argn, char* argv[])
 	printf("failed to open the destination file.\n");
 	return errno;
     }
-
-    //calculating the size of the source file
-    off_t src_off = lseek(src_fd, 0, SEEK_END);
-    if (src_off == -1)
-    {
-	printf("lseek failed on the source file.\n");
-        return errno;
-    }
     
     //copying the file
     int buffer_size = 1024;
@@ -57,7 +49,15 @@ int main(int argn, char* argv[])
             return errno;
         }
     }
-
+	
+    //calculating the size of the source file
+    off_t src_off = lseek(src_fd, 0, SEEK_END);
+    if (src_off == -1)
+    {
+	printf("lseek failed on the source file.\n");
+        return errno;
+    }
+	
     //calculating the size of the copied file
     off_t dst_off = lseek(dst_fd, 0, SEEK_END);
     if (dst_off == -1)
